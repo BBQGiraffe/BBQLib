@@ -17,7 +17,7 @@ namespace BBQLib
             BBQLib.Init(config, BackendType.SDL);
             
             Sprite sprite = BBQLib.RegisterSprite("testsprite.json");
-
+            
             while(BBQLib.IsOpen)
             {
                 BBQLib.Clear();

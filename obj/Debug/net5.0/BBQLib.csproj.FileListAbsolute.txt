@@ -78,3 +78,4 @@
 /home/bbq/Projects/BBQLib/obj/Debug/net5.0/ref/BBQLib.dll
 /home/bbq/Projects/BBQLib/obj/Debug/net5.0/BBQLib.pdb
 /home/bbq/Projects/BBQLib/obj/Debug/net5.0/BBQLib.genruntimeconfig.cache
+/home/bbq/Projects/BBQLib/bin/Debug/net5.0/Newtonsoft.Json.dll

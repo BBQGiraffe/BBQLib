@@ -4,5 +4,6 @@ namespace BBQLib
     {
         public string name;
         public uint width, height;
+        public uint fps;
     }
 }

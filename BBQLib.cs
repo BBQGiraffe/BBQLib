@@ -21,12 +21,19 @@ namespace BBQLib
         public static Sprite RegisterSprite(string filename)
         {
             Sprite sprite = Json.Deserialize<Sprite>(filename);
+            sprite.json = filename;
+            window.RegisterSprite(sprite, filename);
             return sprite;
         }
 
         public static void Clear()
         {
             window.Clear();
+        }
+        
+        public static void Draw(Sprite sprite)
+        {
+            window.Draw(sprite);
         }
 
         public static bool IsOpen

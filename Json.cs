@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using System;
 using System.IO;
 namespace BBQLib
 {
@@ -17,6 +18,10 @@ namespace BBQLib
 
         public static T Deserialize<T>(string filename)
         {
+            if(!File.Exists(filename))
+            {
+                Serialize(Activator.CreateInstance<T>(), filename);
+            }
             return JsonConvert.DeserializeObject<T>(File.ReadAllText(filename), settings);
         }
     }

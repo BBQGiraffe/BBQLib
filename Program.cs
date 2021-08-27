@@ -17,10 +17,12 @@ namespace BBQLib
             //SDL2 backend doesn't work a lot of times on Linux
             BBQLib.Init(config, BackendType.SFML);
 
+            Sprite sprite = BBQLib.RegisterSprite("testsprite.json");
+
             while(BBQLib.IsOpen)
             {
                 BBQLib.Clear();
-
+                BBQLib.Draw(sprite);
                 BBQLib.Display();
             }
         }

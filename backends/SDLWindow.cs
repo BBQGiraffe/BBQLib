@@ -35,6 +35,11 @@ namespace BBQLib
                 SDL_Delay(17);
             }
 
+            public override void RegisterSprite(Sprite sprite, string name)
+            {
+                throw new NotImplementedException();
+            }
+
             public override void Present()
             {
                 SDL_RenderPresent(renderer);

@@ -112,6 +112,31 @@ namespace BBQLib
                 
                 window.Display();
             }
+
+            public override bool Equals(object obj)
+            {
+                return base.Equals(obj);
+            }
+
+            public override int GetHashCode()
+            {
+                return base.GetHashCode();
+            }
+
+            public override string ToString()
+            {
+                return base.ToString();
+            }
+
+            public override void Draw(Font font, string text, Vector2 position)
+            {
+                throw new NotImplementedException();
+            }
+
+            public override void RegisterFont(Font font, string name)
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }

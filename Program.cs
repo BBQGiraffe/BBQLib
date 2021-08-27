@@ -22,7 +22,7 @@ namespace BBQLib
             {
                 BBQLib.Clear();
                 BBQLib.Draw(sprite);
-                sprite.rotation += 30 * BBQLib.DeltaTime;
+                sprite.rotation += 180 * BBQLib.DeltaTime;
                 BBQLib.Display();
             }
         }

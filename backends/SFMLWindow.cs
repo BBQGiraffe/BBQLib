@@ -8,8 +8,16 @@ namespace BBQLib
 {
     namespace Backends
     {
-        internal class SFMLWindow : WindowImplementation
+        internal class SFMLWindow : WindowImplementation, IDisposable
         {
+            public override void Dispose()
+            {
+                window.Dispose();
+                foreach(var sprite in sfSprites.Values)
+                {
+                    sprite.Dispose();
+                }
+            }
 
             public override Vector2 Size
             {

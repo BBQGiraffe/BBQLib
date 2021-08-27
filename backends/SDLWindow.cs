@@ -7,7 +7,7 @@ namespace BBQLib
 {
     namespace Backends
     {
-        internal class SDLWindow : WindowImplementation
+        internal class SDLWindow : WindowImplementation, IDisposable
         {
             public override float DeltaTime 
             {
@@ -39,15 +39,36 @@ namespace BBQLib
                 IMG_Init(IMG_InitFlags.IMG_INIT_PNG);
                 window = SDL_CreateWindow(config.name, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,(int)config.width, (int)config.height, SDL_WindowFlags.SDL_WINDOW_RESIZABLE);
                 renderer = SDL_CreateRenderer(window, -1,0);
+
+                SDL_RenderSetLogicalSize(renderer, (int)config.width, (int)config.height);
             }
 
 
             uint tickCount;
+
+            SDL_Event sdlEvent;
+
+            void PollEvents()
+            {
+                while(SDL_PollEvent(out sdlEvent) > 0){
+                    switch (sdlEvent.type)
+                    {
+                        case SDL_EventType.SDL_QUIT:
+                            open = false;
+                            break;
+                        
+                    }
+                }
+
+            }
+
+
             public override void Clear()
             {
+                PollEvents();
                 deltaTime = (SDL_GetTicks() - tickCount) / 1000.0f;
                 tickCount = SDL_GetTicks();
-
+                SDL_SetRenderDrawColor(renderer, 50, 0, 40, 255);
                 SDL_RenderClear(renderer);
                 SDL_Delay(17);
             }
@@ -60,7 +81,6 @@ namespace BBQLib
                 uint asdfasdf;
                 SDL_QueryTexture(texture, out asdfasdf, out asdf, out w, out h);
                 sprite.size = new Vector2(w, h);
-                Console.WriteLine(sprite.size);
                 textures.Add(name, texture);
             }
 
@@ -98,6 +118,16 @@ namespace BBQLib
                 IntPtr texture = textures[sprite.json];
                 SDL_RenderCopyEx(renderer, texture, ref src, ref rect, sprite.rotation, ref center, SDL_RendererFlip.SDL_FLIP_NONE);
 
+            }
+
+            public override void Dispose()
+            {
+                SDL_DestroyRenderer(renderer);
+                SDL_DestroyWindow(window);
+                foreach(var texture in textures)
+                {
+                    SDL_DestroyTexture(texture.Value);
+                }
             }
         }
     }

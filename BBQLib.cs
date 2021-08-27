@@ -1,5 +1,6 @@
 using BBQLib.Backends;
 using System.Collections.Generic;
+using System;
 namespace BBQLib
 {
     public static class BBQLib
@@ -36,6 +37,12 @@ namespace BBQLib
         {
             window.Clear();
         }
+
+        public static void Dispose()
+        {
+            
+        }
+
         
         public static void Draw(Sprite sprite)
         {
@@ -54,5 +61,6 @@ namespace BBQLib
         {
             window.Present();
         }
+
     }
 }

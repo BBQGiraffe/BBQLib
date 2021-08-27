@@ -4,8 +4,13 @@ namespace BBQLib
     public abstract class WindowImplementation : IDrawableSurface
     {
         public abstract void Clear();
-        public abstract void Draw(Drawable drawable);
+        public abstract void Draw(Sprite sprite);
         public abstract void Present();
+
+        public abstract bool IsOpen
+        {
+            get;
+        }
 
         public abstract float DeltaTime
         {

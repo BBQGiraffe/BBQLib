@@ -248,18 +248,6 @@
           "lib/netstandard2.0/Newtonsoft.Json.dll": {}
         }
       },
-      "SDL2-CS/2.0.0": {
-        "type": "package"
-      },
-      "SDL2-CS.NetCore/2.0.8": {
-        "type": "package",
-        "compile": {
-          "lib/netstandard2.0/SDL2-CS.dll": {}
-        },
-        "runtime": {
-          "lib/netstandard2.0/SDL2-CS.dll": {}
-        }
-      },
       "SFML.Audio/2.5.0": {
         "type": "package",
         "dependencies": {
@@ -422,35 +410,6 @@
         "packageIcon.png"
       ]
     },
-    "SDL2-CS/2.0.0": {
-      "sha512": "W7T4y+lMs7Wm/94dGggRxJYqxX5N6uuxuxw5ob/H34fnaoUwgoG0s+P7xzqsGXUc1cbCAjnShs21FdeFUnPlHA==",
-      "type": "package",
-      "path": "sdl2-cs/2.0.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "LICENSE",
-        "content/net20/SDL2-CS/LPUtf8StrMarshaler.cs",
-        "content/net20/SDL2-CS/SDL2.cs",
-        "content/net20/SDL2-CS/SDL2_image.cs",
-        "content/net20/SDL2-CS/SDL2_mixer.cs",
-        "content/net20/SDL2-CS/SDL2_ttf.cs",
-        "sdl2-cs.2.0.0.nupkg.sha512",
-        "sdl2-cs.nuspec"
-      ]
-    },
-    "SDL2-CS.NetCore/2.0.8": {
-      "sha512": "Nn1duzenQyZcFLkiA+hrFkOIB4+c1BbZzNyN2HqPg3+/wyaF2Yxeb8A5pbTmXoifTa3yjcURB+8CRE1GS8BpjA==",
-      "type": "package",
-      "path": "sdl2-cs.netcore/2.0.8",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "lib/netstandard2.0/SDL2-CS.dll",
-        "sdl2-cs.netcore.2.0.8.nupkg.sha512",
-        "sdl2-cs.netcore.nuspec"
-      ]
-    },
     "SFML.Audio/2.5.0": {
       "sha512": "M5EIksRefT3nsLT32oEpESStsnlixR+YjKS6fUMl+vDQ3gdMaV4jc84pg3kbfM9w4RYKAyH6OWV4bzDU5FNZyA==",
       "type": "package",
@@ -518,8 +477,6 @@
   "projectFileDependencyGroups": {
     "net5.0": [
       "Newtonsoft.Json >= 13.0.1",
-      "SDL2-CS >= 2.0.0",
-      "SDL2-CS.NetCore >= 2.0.8",
       "SFML.NET >= 2.5.0"
     ]
   },
@@ -563,14 +520,6 @@
           "Newtonsoft.Json": {
             "target": "Package",
             "version": "[13.0.1, )"
-          },
-          "SDL2-CS": {
-            "target": "Package",
-            "version": "[2.0.0, )"
-          },
-          "SDL2-CS.NetCore": {
-            "target": "Package",
-            "version": "[2.0.8, )"
           },
           "SFML.NET": {
             "target": "Package",

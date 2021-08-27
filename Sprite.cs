@@ -15,5 +15,8 @@ namespace BBQLib
 
         [JsonIgnore]
         public string json;
+
+        [JsonIgnore]
+        public Vector2 size = new Vector2();
     }
 }

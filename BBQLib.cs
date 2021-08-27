@@ -17,7 +17,13 @@ namespace BBQLib
                     break;
             }
         }
-
+        public static float DeltaTime
+        {
+            get
+            {
+                return window.DeltaTime;
+            }
+        }
         public static Sprite RegisterSprite(string filename)
         {
             Sprite sprite = Json.Deserialize<Sprite>(filename);

@@ -14,15 +14,15 @@ namespace BBQLib
             };
 
 
-            //SDL2 backend doesn't work a lot of times on Linux
-            BBQLib.Init(config, BackendType.SFML);
-
+            BBQLib.Init(config, BackendType.SDL);
+            
             Sprite sprite = BBQLib.RegisterSprite("testsprite.json");
 
             while(BBQLib.IsOpen)
             {
                 BBQLib.Clear();
                 BBQLib.Draw(sprite);
+                sprite.rotation += 30 * BBQLib.DeltaTime;
                 BBQLib.Display();
             }
         }

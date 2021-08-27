@@ -42,14 +42,6 @@
               "target": "Package",
               "version": "[13.0.1, )"
             },
-            "SDL2-CS": {
-              "target": "Package",
-              "version": "[2.0.0, )"
-            },
-            "SDL2-CS.NetCore": {
-              "target": "Package",
-              "version": "[2.0.8, )"
-            },
             "SFML.NET": {
               "target": "Package",
               "version": "[2.5.0, )"

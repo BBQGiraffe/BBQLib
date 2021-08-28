@@ -70,10 +70,10 @@ namespace BBQLib
             static Dictionary<string, IntPtr> textures = new Dictionary<string, IntPtr>();
             static Dictionary<string, IntPtr> fonts = new Dictionary<string, IntPtr>();
 
-            public override void RegisterFont(Font font, string name)
+            public override void RegisterFont(Font font)
             {
                 var sdlFont = TTF_OpenFont(font.ttf, (int)font.size);
-                fonts.Add(font.name, sdlFont);
+                fonts.Add(font.jsonFilename, sdlFont);
             }
 
             public override void RegisterSprite(Sprite sprite, string name)
@@ -134,7 +134,7 @@ namespace BBQLib
 
             public override void Draw(Font font, string text, Vector2 position)
             {
-                var sdlFont = fonts[font.name];
+                var sdlFont = fonts[font.jsonFilename];
                 SDL_Color color = new SDL_Color()
                 {
                     r = 255,

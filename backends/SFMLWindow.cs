@@ -133,7 +133,7 @@ namespace BBQLib
                 throw new NotImplementedException();
             }
 
-            public override void RegisterFont(Font font, string name)
+            public override void RegisterFont(Font font)
             {
                 throw new NotImplementedException();
             }

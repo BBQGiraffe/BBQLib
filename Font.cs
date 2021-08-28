@@ -1,8 +1,10 @@
+using Newtonsoft.Json;
 namespace BBQLib
 {
     public class Font
     {
-        public string name = "";
+        [JsonIgnore]
+        public string jsonFilename = "";
         public string ttf = "";
         public uint size = 24;
     }

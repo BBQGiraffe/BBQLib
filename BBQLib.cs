@@ -37,7 +37,8 @@ namespace BBQLib
         public static Font RegisterFont(string filename)
         {
             Font font = Json.Deserialize<Font>(filename);
-            window.RegisterFont(font, filename);
+            font.jsonFilename = filename;
+            window.RegisterFont(font);
             return font;
         }
 

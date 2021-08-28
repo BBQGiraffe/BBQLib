@@ -15,7 +15,7 @@ namespace BBQLib
             };
 
 
-            BBQLib.Init(config, BackendType.SFML);
+            BBQLib.Init(config, BackendType.SDL);
             
             Sprite sprite = BBQLib.RegisterSprite("testsprite.json");
             Font font = BBQLib.RegisterFont("font.json");

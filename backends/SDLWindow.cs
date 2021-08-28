@@ -85,13 +85,21 @@ namespace BBQLib
                 sprite.size = new Vector2(w, h);
                 textures.Add(name, texture);
             }
-
+        
             public override void Present()
             {
+                DrawSprites();
                 SDL_RenderPresent(renderer);
             }
 
             public override void Draw(Sprite sprite)
+            {
+                sprites.Add(sprite);
+                Layer(sprite.layer);
+                sprite.drawn = false;
+            }
+
+            protected override void DrawSpriteInternal(Sprite sprite)
             {
                 IntPtr texture = textures[sprite.json];
                 DrawSDLTexture(sprite.position, texture, sprite.scale, sprite.rotation, sprite.origin);
@@ -100,7 +108,6 @@ namespace BBQLib
 
             void DrawSDLTexture(Vector2 position, IntPtr texture, Vector2 scale, float rotation, Vector2 origin)
             {
-
                 int width, height, cum;
                 uint semen;
                 SDL_QueryTexture(texture, out semen, out cum, out width, out height);

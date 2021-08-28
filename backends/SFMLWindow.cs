@@ -34,9 +34,12 @@ namespace BBQLib
                     return deltaTime;
                 }
             }
+
             Dictionary<string, SFML.Graphics.Sprite> sfSprites = new Dictionary<string, SFML.Graphics.Sprite>();
             Dictionary<string, SFML.Graphics.Text> sfTexts = new Dictionary<string, Text>();
-            List<Sprite> sprites = new List<Sprite>();
+            float deltaTime;
+            readonly Clock deltaTimer = new Clock();
+            static RenderWindow window;
 
 
             public SFMLWindow(WindowConfig config)
@@ -53,15 +56,8 @@ namespace BBQLib
                     return window.IsOpen;
                 }
             }
-
-            float deltaTime;
-            Clock deltaTimer = new Clock();
-
-
-            private static RenderWindow window;
-
-            readonly List<int> usedLayers = new List<int>();
             
+
             public override void Clear()
             {
                 sprites.Clear();
@@ -74,45 +70,20 @@ namespace BBQLib
             public override void RegisterSprite(Sprite sprite, string name)
             {
                 var sfSprite = new SFML.Graphics.Sprite(new Texture(sprite.name));
-                sfSprites.Add(name, sfSprite);
+                sfSprites.Add(sprite.name, sfSprite);
             }
 
             public override void Draw(Sprite sprite)
             {
                 sprite.drawn = false;
-                if(!usedLayers.Contains(sprite.layer))
-                {
-                    usedLayers.Add(sprite.layer);
-                }
+                Layer(sprite.layer);
                 sprites.Add(sprite);
             }
 
             public override void Present()
             {
-                usedLayers.Sort();
-                foreach(var layer in usedLayers)
-                {
-                    for(int i = 0; i < sprites.Count; i++)
-                    {
-                        Sprite sprite = sprites[i];
-                        if(!sprite.drawn)
-                        {
-                            if(sprite.layer == layer)
-                            {
-                                var sfSprite = sfSprites[sprite.json];
-                                sprite.drawn = true;
-
-                                sfSprite.Position = new Vector2f(sprite.position.X, sprite.position.Y);
-                                sfSprite.Rotation = sprite.rotation;
-                                sfSprite.Texture.Repeated = sprite.repeat;
-                                sfSprite.Origin = new Vector2f(sprite.origin.X, sprite.origin.Y);
-                                window.Draw(sfSprite);
-                            }
-                        }
-                        
-                    }
-                }
                 
+                DrawSprites();
                 window.Display();
             }
 
@@ -144,6 +115,15 @@ namespace BBQLib
                 var sfFont = new SFML.Graphics.Font(font.ttf);
                 var sfText = new Text("OWO yiff me harder daddy", sfFont);
                 sfTexts.Add(font.jsonFilename, sfText);
+            }
+
+            protected override void DrawSpriteInternal(Sprite sprite)
+            {
+                var sfSprite = sfSprites[sprite.name];
+                sfSprite.Position = new Vector2f(sprite.position.X, sprite.position.Y);
+                sfSprite.Rotation = sprite.rotation;
+                sfSprite.Origin = new Vector2f(sprite.origin.X, sprite.origin.Y);
+                window.Draw(sfSprite);
             }
         }
     }

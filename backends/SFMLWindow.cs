@@ -35,7 +35,10 @@ namespace BBQLib
                 }
             }
             Dictionary<string, SFML.Graphics.Sprite> sfSprites = new Dictionary<string, SFML.Graphics.Sprite>();
+            Dictionary<string, SFML.Graphics.Text> sfTexts = new Dictionary<string, Text>();
             List<Sprite> sprites = new List<Sprite>();
+
+
             public SFMLWindow(WindowConfig config)
             {
                 window = new RenderWindow(new VideoMode(config.width, config.height), config.name);
@@ -130,12 +133,17 @@ namespace BBQLib
 
             public override void Draw(Font font, string text, Vector2 position)
             {
-                throw new NotImplementedException();
+                var sfText = sfTexts[font.jsonFilename];
+                sfText.Position = new Vector2f(position.X, position.Y);
+                sfText.DisplayedString = text;
+                window.Draw(sfText);
             }
 
             public override void RegisterFont(Font font)
             {
-                throw new NotImplementedException();
+                var sfFont = new SFML.Graphics.Font(font.ttf);
+                var sfText = new Text("OWO yiff me harder daddy", sfFont);
+                sfTexts.Add(font.jsonFilename, sfText);
             }
         }
     }

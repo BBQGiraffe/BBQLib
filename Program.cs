@@ -10,11 +10,12 @@ namespace BBQLib
             {
                 name = "Window Test",
                 width = 640,
-                height = 480
+                height = 480,
+                fps = 60
             };
 
 
-            BBQLib.Init(config, BackendType.SDL);
+            BBQLib.Init(config, BackendType.SFML);
             
             Sprite sprite = BBQLib.RegisterSprite("testsprite.json");
             Font font = BBQLib.RegisterFont("font.json");

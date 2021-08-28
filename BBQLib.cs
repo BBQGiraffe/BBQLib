@@ -30,7 +30,7 @@ namespace BBQLib
         {
             Sprite sprite = Json.Deserialize<Sprite>(filename);
             sprite.json = filename;
-            window.RegisterSprite(sprite, filename);
+            window.RegisterSprite(sprite);
             return sprite;
         }
 

@@ -67,7 +67,7 @@ namespace BBQLib
                 deltaTime = deltaTimer.Restart().AsSeconds();
             }
 
-            public override void RegisterSprite(Sprite sprite, string name)
+            public override void RegisterSprite(Sprite sprite)
             {
                 var sfSprite = new SFML.Graphics.Sprite(new Texture(sprite.name));
                 sfSprites.Add(sprite.name, sfSprite);

@@ -15,9 +15,10 @@ namespace BBQLib
             };
 
 
-            BBQLib.Init(config, BackendType.SDL);
+            BBQLib.Init(config, BackendType.SFML);
             
             Sprite sprite = BBQLib.RegisterSprite("testsprite.json");
+            sprite.position = new System.Numerics.Vector2(320, 240);
             Font font = BBQLib.RegisterFont("font.json");
             
             while(BBQLib.IsOpen)

@@ -9,7 +9,7 @@ namespace BBQLib
         public abstract void Draw(Sprite sprite);
         public abstract void Draw(Font font, string text, Vector2 position);
         public abstract void Present();
-        public abstract void RegisterSprite(Sprite sprite, string name);
+        public abstract void RegisterSprite(Sprite sprite);
         public abstract void RegisterFont(Font font);
         public abstract void Dispose();
 

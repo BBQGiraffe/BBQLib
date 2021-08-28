@@ -76,14 +76,14 @@ namespace BBQLib
                 fonts.Add(font.jsonFilename, sdlFont);
             }
 
-            public override void RegisterSprite(Sprite sprite, string name)
+            public override void RegisterSprite(Sprite sprite)
             {
                 IntPtr texture = IMG_LoadTexture(renderer, sprite.name);
                 int w, h, asdf;
                 uint asdfasdf;
                 SDL_QueryTexture(texture, out asdfasdf, out asdf, out w, out h);
                 sprite.size = new Vector2(w, h);
-                textures.Add(name, texture);
+                textures.Add(sprite.name, texture);
             }
         
             public override void Present()
@@ -101,7 +101,7 @@ namespace BBQLib
 
             protected override void DrawSpriteInternal(Sprite sprite)
             {
-                IntPtr texture = textures[sprite.json];
+                IntPtr texture = textures[sprite.name];
                 DrawSDLTexture(sprite.position, texture, sprite.scale, sprite.rotation, sprite.origin);
             }
 
@@ -130,8 +130,8 @@ namespace BBQLib
                 //if you want to use SDL2 you're stuck with integer sprite positions
                 SDL_Rect rect = new SDL_Rect()
                 {
-                    x = (int)position.X,
-                    y = (int)position.Y,
+                    x = (int)position.X - (int)origin.X,
+                    y = (int)position.Y - (int)origin.Y, 
                     w = width * (int)scale.X,
                     h = height * (int)scale.Y
                 };

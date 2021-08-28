@@ -9,20 +9,23 @@ namespace BBQLib
             WindowConfig config = new WindowConfig()
             {
                 name = "Window Test",
-                width = 800,
-                height = 600
+                width = 640,
+                height = 480,
+                fps = 60
             };
 
 
             BBQLib.Init(config, BackendType.SDL);
             
             Sprite sprite = BBQLib.RegisterSprite("testsprite.json");
+            Font font = BBQLib.RegisterFont("font.json");
             
             while(BBQLib.IsOpen)
             {
                 BBQLib.Clear();
                 BBQLib.Draw(sprite);
-                sprite.rotation += 30 * BBQLib.DeltaTime;
+                BBQLib.Draw(font, string.Format("FPS:{0}", (int)(1f / BBQLib.DeltaTime)), new System.Numerics.Vector2());
+                sprite.rotation += 180 * BBQLib.DeltaTime;
                 BBQLib.Display();
             }
         }

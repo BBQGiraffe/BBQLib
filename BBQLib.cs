@@ -1,5 +1,7 @@
 using BBQLib.Backends;
 using System.Collections.Generic;
+using System;
+using System.Numerics;
 namespace BBQLib
 {
     public static class BBQLib
@@ -32,14 +34,33 @@ namespace BBQLib
             return sprite;
         }
 
+        public static Font RegisterFont(string filename)
+        {
+            Font font = Json.Deserialize<Font>(filename);
+            font.jsonFilename = filename;
+            window.RegisterFont(font);
+            return font;
+        }
+
         public static void Clear()
         {
             window.Clear();
         }
+
+        public static void Dispose()
+        {
+
+        }
+
         
         public static void Draw(Sprite sprite)
         {
             window.Draw(sprite);
+        }
+
+        public static void Draw(Font font, string text, Vector2 position)
+        {
+            window.Draw(font, text, position);
         }
 
         public static bool IsOpen
@@ -54,5 +75,6 @@ namespace BBQLib
         {
             window.Present();
         }
+
     }
 }

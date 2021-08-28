@@ -34,11 +34,12 @@ namespace BBQLib
             private IntPtr renderer;
             public SDLWindow(WindowConfig config)
             {
-                SDL_Init(SDL_INIT_EVERYTHING);
-                IMG_Init(IMG_InitFlags.IMG_INIT_PNG);
+                Console.WriteLine("starting SDL2... {0}", SDL_Init(SDL_INIT_EVERYTHING) > -1);
+                Console.WriteLine("starting SDL2 TTF... {0}", TTF_Init() > -1);
+                Console.WriteLine("starting SDL2 Image... {0}", IMG_Init(IMG_InitFlags.IMG_INIT_PNG) > -1);
                 window = SDL_CreateWindow(config.name, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,(int)config.width, (int)config.height, SDL_WindowFlags.SDL_WINDOW_RESIZABLE);
-                renderer = SDL_CreateRenderer(window, -1,0);
-                SDL_RenderSetLogicalSize(renderer, (int)config.width, (int)config.height);
+                renderer = SDL_CreateRenderer(window, -1, SDL_RendererFlags.SDL_RENDERER_ACCELERATED);
+                Console.WriteLine("setting logical render size... {0}", SDL_RenderSetLogicalSize(renderer, (int)config.width, (int)config.height) > -1);
             }
 
             uint tickCount;
@@ -96,13 +97,13 @@ namespace BBQLib
                 DrawSDLTexture(sprite.position, texture, sprite.scale, sprite.rotation, sprite.origin);
             }
 
+
             void DrawSDLTexture(Vector2 position, IntPtr texture, Vector2 scale, float rotation, Vector2 origin)
             {
 
                 int width, height, cum;
                 uint semen;
                 SDL_QueryTexture(texture, out semen, out cum, out width, out height);
-
                 SDL_Rect src = new SDL_Rect()
                 {
                     x = 0,
@@ -125,7 +126,7 @@ namespace BBQLib
                     x = (int)position.X,
                     y = (int)position.Y,
                     w = width * (int)scale.X,
-                    h = width * (int)scale.Y
+                    h = height * (int)scale.Y
                 };
 
                 SDL_RenderCopyEx(renderer, texture, ref src, ref rect, rotation, ref center, SDL_RendererFlip.SDL_FLIP_NONE);
@@ -138,10 +139,11 @@ namespace BBQLib
                 {
                     r = 255,
                     g = 255,
-                    b = 255
+                    b = 255,
+                    a = 255
                 };
-
                 var surface = TTF_RenderText_Solid(sdlFont, text, color);
+
                 IntPtr texture = SDL_CreateTextureFromSurface(renderer, surface);
                 DrawSDLTexture(position, texture, new Vector2(1,1), 0, new Vector2());
             }

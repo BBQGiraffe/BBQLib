@@ -113,7 +113,7 @@ namespace BBQLib
             public override void RegisterFont(Font font)
             {
                 var sfFont = new SFML.Graphics.Font(font.ttf);
-                var sfText = new Text("OWO yiff me harder daddy", sfFont);
+                var sfText = new Text("Example Text", sfFont);
                 sfTexts.Add(font.jsonFilename, sfText);
             }
 

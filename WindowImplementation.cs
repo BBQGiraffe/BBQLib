@@ -7,12 +7,12 @@ namespace BBQLib
     {
         public abstract void Clear();
         public abstract void Draw(Sprite sprite);
-        public abstract void Draw(Font font, string text, Vector2 position);
+        public abstract void Draw(string font, string text, Vector2 position);
         public abstract void Present();
-        public abstract void RegisterSprite(Sprite sprite, string name);
-        public abstract void RegisterFont(Font font);
+        public abstract Sprite CreateSprite(string filename);
+        public abstract void LoadFonts(string filename);
         public abstract void Dispose();
-
+        public abstract bool IsKeyDown(KeyboardKey key);
         protected abstract void DrawSpriteInternal(Sprite sprite);
 
         protected readonly List<int> usedLayers = new List<int>();

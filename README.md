@@ -6,6 +6,8 @@ cross-platform game library (Bring Your Own Engine)
 * easily create new backends
 * easy to understand and great for beginners
 
+## used in
+ * [Snowball Engine](https://github.com/Sn0wball-Studios/Snowball-Engine)
 
 ## purpose of this project
 I like making game engines but I hate that

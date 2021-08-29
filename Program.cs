@@ -1,5 +1,5 @@
-﻿using System;
-
+﻿using System.Numerics;
+using System;
 namespace BBQLib
 {
     class Program
@@ -15,17 +15,22 @@ namespace BBQLib
             };
 
 
-            BBQLib.Init(config, BackendType.SDL);
+            BBQLib.Init(config, BackendType.SFML);
             
             Sprite sprite = BBQLib.RegisterSprite("testsprite.json");
-            Font font = BBQLib.RegisterFont("font.json");
-            
+            sprite.position = new Vector2();
+
+           // BBQLib.RegisterFont("font.json");
+            Input.LoadAxisFile("axes.json");
             while(BBQLib.IsOpen)
             {
                 BBQLib.Clear();
+                
+                Vector2 input = new Vector2(Input.GetAxis("horizontal"), -Input.GetAxis("vertical"));
+                sprite.position += input * BBQLib.DeltaTime * 90;
                 BBQLib.Draw(sprite);
-                BBQLib.Draw(font, string.Format("FPS:{0}", (int)(1f / BBQLib.DeltaTime)), new System.Numerics.Vector2());
-                sprite.rotation += 180 * BBQLib.DeltaTime;
+
+                BBQLib.Draw("semen", string.Format("FPS:{0}", (int)(1f / BBQLib.DeltaTime)), new Vector2());
                 BBQLib.Display();
             }
         }

@@ -23,9 +23,11 @@ namespace BBQLib
             {
                 get
                 {
-                    return new Vector2(window.Size.X, window.Size.Y);
+                    return windowSize;
                 }
             }
+
+            private Vector2 windowSize = new Vector2();
 
             public override float DeltaTime
             {
@@ -46,6 +48,7 @@ namespace BBQLib
             {
                 window = new RenderWindow(new VideoMode(config.width, config.height), config.name);
                 window.SetFramerateLimit(config.fps);
+                windowSize = new Vector2(config.width, config.height);
                 window.Closed += (object o, EventArgs a) => window.Close();
             }
 
@@ -60,6 +63,7 @@ namespace BBQLib
 
             public override void Clear()
             {
+                Input.ProcessInputs();
                 sprites.Clear();
                 usedLayers.Clear();
                 window.DispatchEvents();
@@ -67,10 +71,21 @@ namespace BBQLib
                 deltaTime = deltaTimer.Restart().AsSeconds();
             }
 
-            public override void RegisterSprite(Sprite sprite, string name)
+            public override Sprite CreateSprite(string filename)
             {
-                var sfSprite = new SFML.Graphics.Sprite(new Texture(sprite.name));
-                sfSprites.Add(sprite.name, sfSprite);
+                var sprite = Json.Deserialize<Sprite>(filename);
+                sprite.json = filename;
+                if(!sfSprites.ContainsKey(filename))
+                {
+                    var sfSprite = new SFML.Graphics.Sprite(new Texture(BBQLib.rootDirectory + sprite.textureFile));
+                    sfSprites.Add(filename, sfSprite);
+                }
+                return sprite;
+            }
+
+            public override bool IsKeyDown(KeyboardKey key)
+            {
+                return Keyboard.IsKeyPressed((Keyboard.Key)key);
             }
 
             public override void Draw(Sprite sprite)
@@ -102,25 +117,30 @@ namespace BBQLib
                 return base.ToString();
             }
 
-            public override void Draw(Font font, string text, Vector2 position)
+            public override void Draw(string font, string text, Vector2 position)
             {
-                var sfText = sfTexts[font.jsonFilename];
+                var sfText = sfTexts[font];
                 sfText.Position = new Vector2f(position.X, position.Y);
                 sfText.DisplayedString = text;
                 window.Draw(sfText);
             }
 
-            public override void RegisterFont(Font font)
+            public override void LoadFonts(string filename)
             {
-                var sfFont = new SFML.Graphics.Font(font.ttf);
-                var sfText = new Text("OWO yiff me harder daddy", sfFont);
-                sfTexts.Add(font.jsonFilename, sfText);
+                var fonts = Json.Deserialize<Dictionary<string, Font>>(filename);
+                foreach(var font in fonts)
+                {
+                    var sfFont = new SFML.Graphics.Font(BBQLib.rootDirectory + font.Value.ttf);
+                    var sfText = new Text("Example Text", sfFont, font.Value.size);
+                    sfTexts.Add(font.Key, sfText);
+                }
             }
 
             protected override void DrawSpriteInternal(Sprite sprite)
             {
-                var sfSprite = sfSprites[sprite.name];
-                sfSprite.Position = new Vector2f(sprite.position.X, sprite.position.Y);
+                var sfSprite = sfSprites[sprite.json];
+                Vector2 pos = sprite.position - BBQLib.Camera + Size / 2;
+                sfSprite.Position = new Vector2f(pos.X, pos.Y);
                 sfSprite.Rotation = sprite.rotation;
                 sfSprite.Origin = new Vector2f(sprite.origin.X, sprite.origin.Y);
                 window.Draw(sfSprite);

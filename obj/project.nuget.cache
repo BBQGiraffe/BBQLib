@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "dgSpecHash": "33Usj7Lc25P5bNoFR/kYzont1L8se5bg1jmy72uG9sPV4Vx4nMJoWEO0D533+Y9isBsFZEmh5NjcJUBHglgO+A==",
+  "success": true,
+  "projectFilePath": "/home/bbq/Projects/BBQLib/BBQLib.csproj",
+  "expectedPackageFiles": [
+    "/home/bbq/.nuget/packages/csfml/2.5.0/csfml.2.5.0.nupkg.sha512",
+    "/home/bbq/.nuget/packages/newtonsoft.json/13.0.1/newtonsoft.json.13.0.1.nupkg.sha512",
+    "/home/bbq/.nuget/packages/sfml.audio/2.5.0/sfml.audio.2.5.0.nupkg.sha512",
+    "/home/bbq/.nuget/packages/sfml.graphics/2.5.0/sfml.graphics.2.5.0.nupkg.sha512",
+    "/home/bbq/.nuget/packages/sfml.net/2.5.0/sfml.net.2.5.0.nupkg.sha512",
+    "/home/bbq/.nuget/packages/sfml.system/2.5.0/sfml.system.2.5.0.nupkg.sha512",
+    "/home/bbq/.nuget/packages/sfml.window/2.5.0/sfml.window.2.5.0.nupkg.sha512"
+  ],
+  "logs": []
+}

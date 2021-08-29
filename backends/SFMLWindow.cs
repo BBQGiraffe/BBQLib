@@ -23,9 +23,11 @@ namespace BBQLib
             {
                 get
                 {
-                    return new Vector2(window.Size.X, window.Size.Y);
+                    return windowSize;
                 }
             }
+
+            private Vector2 windowSize = new Vector2();
 
             public override float DeltaTime
             {
@@ -46,6 +48,7 @@ namespace BBQLib
             {
                 window = new RenderWindow(new VideoMode(config.width, config.height), config.name);
                 window.SetFramerateLimit(config.fps);
+                windowSize = new Vector2(config.width, config.height);
                 window.Closed += (object o, EventArgs a) => window.Close();
             }
 
@@ -71,6 +74,7 @@ namespace BBQLib
             public override Sprite CreateSprite(string filename)
             {
                 var sprite = Json.Deserialize<Sprite>(filename);
+                sprite.json = filename;
                 if(!sfSprites.ContainsKey(filename))
                 {
                     var sfSprite = new SFML.Graphics.Sprite(new Texture(BBQLib.rootDirectory + sprite.textureFile));
@@ -131,7 +135,8 @@ namespace BBQLib
             protected override void DrawSpriteInternal(Sprite sprite)
             {
                 var sfSprite = sfSprites[sprite.json];
-                sfSprite.Position = new Vector2f(sprite.position.X, sprite.position.Y);
+                Vector2 pos = sprite.position - BBQLib.Camera + Size / 2;
+                sfSprite.Position = new Vector2f(pos.X, pos.Y);
                 sfSprite.Rotation = sprite.rotation;
                 sfSprite.Origin = new Vector2f(sprite.origin.X, sprite.origin.Y);
                 window.Draw(sfSprite);

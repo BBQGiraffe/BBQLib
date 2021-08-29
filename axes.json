@@ -1,0 +1,10 @@
+{
+  "vertical": {
+    "up" : "W",
+    "down" : "S"
+  },
+  "horizontal": {
+    "up" : "D",
+    "down" : "A"
+  }
+}

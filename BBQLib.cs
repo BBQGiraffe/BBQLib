@@ -6,7 +6,8 @@ namespace BBQLib
 {
     public static class BBQLib
     {
-        private static WindowImplementation window;   
+        internal static WindowImplementation window;   
+        public static string rootDirectory = "";
         public static void Init(WindowConfig config, BackendType type = BackendType.SFML)
         {
             switch (type)
@@ -28,10 +29,7 @@ namespace BBQLib
         }
         public static Sprite RegisterSprite(string filename)
         {
-            Sprite sprite = Json.Deserialize<Sprite>(filename);
-            sprite.json = filename;
-            window.RegisterSprite(sprite);
-            return sprite;
+            return window.CreateSprite(filename);
         }
 
         public static Font RegisterFont(string filename)
@@ -52,13 +50,22 @@ namespace BBQLib
 
         }
 
+        public static Vector2 Camera = new Vector2();
+
+        public static Vector2 Size
+        {
+            get
+            {
+                return window.Size;
+            }
+        }
         
         public static void Draw(Sprite sprite)
         {
             window.Draw(sprite);
         }
 
-        public static void Draw(Font font, string text, Vector2 position)
+        public static void Draw(string font, string text, Vector2 position)
         {
             window.Draw(font, text, position);
         }

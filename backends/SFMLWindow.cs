@@ -60,6 +60,7 @@ namespace BBQLib
 
             public override void Clear()
             {
+                Input.ProcessInputs();
                 sprites.Clear();
                 usedLayers.Clear();
                 window.DispatchEvents();
@@ -67,10 +68,20 @@ namespace BBQLib
                 deltaTime = deltaTimer.Restart().AsSeconds();
             }
 
-            public override void RegisterSprite(Sprite sprite)
+            public override Sprite CreateSprite(string filename)
             {
-                var sfSprite = new SFML.Graphics.Sprite(new Texture(sprite.name));
-                sfSprites.Add(sprite.name, sfSprite);
+                var sprite = Json.Deserialize<Sprite>(filename);
+                if(!sfSprites.ContainsKey(filename))
+                {
+                    var sfSprite = new SFML.Graphics.Sprite(new Texture(BBQLib.rootDirectory + sprite.textureFile));
+                    sfSprites.Add(sprite.textureFile, sfSprite);
+                }
+                return sprite;
+            }
+
+            public override bool IsKeyDown(KeyboardKey key)
+            {
+                return Keyboard.IsKeyPressed((Keyboard.Key)key);
             }
 
             public override void Draw(Sprite sprite)
@@ -102,9 +113,9 @@ namespace BBQLib
                 return base.ToString();
             }
 
-            public override void Draw(Font font, string text, Vector2 position)
+            public override void Draw(string font, string text, Vector2 position)
             {
-                var sfText = sfTexts[font.jsonFilename];
+                var sfText = sfTexts[font];
                 sfText.Position = new Vector2f(position.X, position.Y);
                 sfText.DisplayedString = text;
                 window.Draw(sfText);
@@ -114,12 +125,12 @@ namespace BBQLib
             {
                 var sfFont = new SFML.Graphics.Font(font.ttf);
                 var sfText = new Text("Example Text", sfFont);
-                sfTexts.Add(font.jsonFilename, sfText);
+                sfTexts.Add(font.name, sfText);
             }
 
             protected override void DrawSpriteInternal(Sprite sprite)
             {
-                var sfSprite = sfSprites[sprite.name];
+                var sfSprite = sfSprites[sprite.textureFile];
                 sfSprite.Position = new Vector2f(sprite.position.X, sprite.position.Y);
                 sfSprite.Rotation = sprite.rotation;
                 sfSprite.Origin = new Vector2f(sprite.origin.X, sprite.origin.Y);

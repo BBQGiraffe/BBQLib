@@ -20,7 +20,15 @@ namespace BBQLib
             }
 
             float deltaTime;
-            public override Vector2 Size => throw new System.NotImplementedException();
+            public override Vector2 Size
+            {
+                get
+                {
+                    return winSize;
+                }
+            }
+            private Vector2 winSize = new Vector2();
+
             private bool open = true;
 
             public override bool IsOpen
@@ -42,6 +50,8 @@ namespace BBQLib
                 renderer = SDL_CreateRenderer(window, -1, SDL_RendererFlags.SDL_RENDERER_ACCELERATED);
                 Console.WriteLine("setting logical render size... {0}", SDL_RenderSetLogicalSize(renderer, (int)config.width, (int)config.height) > -1);
                 Console.WriteLine("mapping SDL2 keys....");
+
+                winSize = new Vector2(config.width, config.height);
                 MapSDLKeys();
             }
 
@@ -156,7 +166,7 @@ namespace BBQLib
             protected override void DrawSpriteInternal(Sprite sprite)
             {
                 IntPtr texture = textures[sprite.json];
-                DrawSDLTexture(sprite.position - BBQLib.Camera, texture, sprite.scale, sprite.rotation, sprite.origin);
+                DrawSDLTexture(sprite.position - BBQLib.Camera + BBQLib.Size/2, texture, sprite.scale, sprite.rotation, sprite.origin);
             }
 
 
@@ -178,17 +188,17 @@ namespace BBQLib
                     x = (int)origin.X,
                     y = (int)origin.Y
                 };
-
-
-                //SDL_RenderCopyExF was REFUSING to work properly so I guess
-                //if you want to use SDL2 you're stuck with integer sprite positions
+                
                 SDL_Rect rect = new SDL_Rect()
                 {
-                    x = (int)position.X - (int)origin.X,
-                    y = (int)position.Y - (int)origin.Y, 
-                    w = width * (int)scale.X,
-                    h = height * (int)scale.Y
+                    x = (int)(position.X - origin.X),
+                    y = (int)(position.Y - origin.Y),
+                    w = (int)(width * scale.X),
+                    h = (int)(height * scale.Y)
                 };
+
+                //SDL_RenderCopyExF(renderer, texture, ref src, (IntPtr)GCHandle.Alloc(rect), rotation, ref center, SDL_RendererFlip.SDL_FLIP_NONE);
+                //SDL_RenderCopyExF(renderer, texture, ref src, ref rect, rotation, (IntPtr)GCHandle.Alloc(center), SDL_RendererFlip.SDL_FLIP_NONE);
 
                 SDL_RenderCopyEx(renderer, texture, ref src, ref rect, rotation, ref center, SDL_RendererFlip.SDL_FLIP_NONE);
             }

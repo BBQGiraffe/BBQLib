@@ -74,7 +74,7 @@ namespace BBQLib
                 if(!sfSprites.ContainsKey(filename))
                 {
                     var sfSprite = new SFML.Graphics.Sprite(new Texture(BBQLib.rootDirectory + sprite.textureFile));
-                    sfSprites.Add(sprite.textureFile, sfSprite);
+                    sfSprites.Add(filename, sfSprite);
                 }
                 return sprite;
             }
@@ -130,7 +130,7 @@ namespace BBQLib
 
             protected override void DrawSpriteInternal(Sprite sprite)
             {
-                var sfSprite = sfSprites[sprite.textureFile];
+                var sfSprite = sfSprites[sprite.json];
                 sfSprite.Position = new Vector2f(sprite.position.X, sprite.position.Y);
                 sfSprite.Rotation = sprite.rotation;
                 sfSprite.Origin = new Vector2f(sprite.origin.X, sprite.origin.Y);

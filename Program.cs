@@ -15,10 +15,10 @@ namespace BBQLib
             };
 
 
-            BBQLib.Init(config, BackendType.SDL);
+            BBQLib.Init(config, BackendType.SFML);
             
             Sprite sprite = BBQLib.RegisterSprite("testsprite.json");
-            sprite.position = new Vector2(320, 240);
+            sprite.position = new Vector2();
 
             BBQLib.RegisterFont("font.json");
             Input.LoadAxisFile("axes.json");

@@ -20,7 +20,7 @@ namespace BBQLib
             Sprite sprite = BBQLib.RegisterSprite("testsprite.json");
             sprite.position = new Vector2();
 
-            BBQLib.RegisterFont("font.json");
+           // BBQLib.RegisterFont("font.json");
             Input.LoadAxisFile("axes.json");
             while(BBQLib.IsOpen)
             {

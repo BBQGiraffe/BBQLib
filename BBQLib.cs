@@ -32,12 +32,9 @@ namespace BBQLib
             return window.CreateSprite(filename);
         }
 
-        public static Font RegisterFont(string filename)
+        public static void LoadFonts(string filename)
         {
-            Font font = Json.Deserialize<Font>(filename);
-            font.jsonFilename = filename;
-            window.RegisterFont(font);
-            return font;
+            window.LoadFonts(filename);
         }
 
         public static void Clear()

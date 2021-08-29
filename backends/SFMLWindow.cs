@@ -125,11 +125,15 @@ namespace BBQLib
                 window.Draw(sfText);
             }
 
-            public override void RegisterFont(Font font)
+            public override void LoadFonts(string filename)
             {
-                var sfFont = new SFML.Graphics.Font(font.ttf);
-                var sfText = new Text("Example Text", sfFont);
-                sfTexts.Add(font.name, sfText);
+                var fonts = Json.Deserialize<Dictionary<string, Font>>(filename);
+                foreach(var font in fonts)
+                {
+                    var sfFont = new SFML.Graphics.Font(BBQLib.rootDirectory + font.Value.ttf);
+                    var sfText = new Text("Example Text", sfFont, font.Value.size);
+                    sfTexts.Add(font.Key, sfText);
+                }
             }
 
             protected override void DrawSpriteInternal(Sprite sprite)

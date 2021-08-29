@@ -4,8 +4,8 @@
     "Y": 0.0
   },
   "origin": {
-    "X": 165.0,
-    "Y": 85.0
+    "X": 0.0,
+    "Y": 0.0
   },
   "scale": {
     "X": 1.0,
@@ -15,5 +15,5 @@
   "layer": 0,
   "drawn": false,
   "repeat": false,
-  "textureFile": "criminal.png"
+  "textureFile": ""
 }

@@ -136,6 +136,28 @@ namespace BBQLib
                 }
             }
 
+            public override Sprite CreateSprite(byte[] frameBuffer, uint width, uint height, string name)
+            {
+                IntPtr texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, (int)SDL_TextureAccess.SDL_TEXTUREACCESS_STREAMING, (int)width, (int)height);
+                textures.Add(name, texture);
+
+                SDL_Rect rect = new SDL_Rect
+                {
+                    x = 0,
+                    y = 0,
+                    w = (int)width,
+                    h = (int)height
+                };
+
+                SDL_UpdateTexture(texture, ref rect, (IntPtr)GCHandle.Alloc(frameBuffer), (int)(3*width));
+
+                Sprite sprite = new Sprite();
+                sprite.json = name;
+                sprite.textureFile = "SDL_GENERATEDTEXTURE_" + name;
+
+                return sprite;
+            }
+
             public override Sprite CreateSprite(string filename)
             {
                 var sprite = Json.Deserialize<Sprite>(filename);

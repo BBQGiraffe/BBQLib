@@ -44,6 +44,11 @@ namespace BBQLib
             return new Color(r,g,b,a);
         }
 
+        public static Color From255RGB(byte r, byte g, byte b, byte a = 255)
+        {
+            return new Color((1f/255) * r, (1f/255) * g, (1f/255) * b, (1f/255) * a);
+        }
+
         public static readonly Color Red = new Color(1, 0, 0, .25f);
     }
 }

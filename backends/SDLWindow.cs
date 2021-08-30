@@ -105,8 +105,6 @@ namespace BBQLib
                 sdlKeys.Add(KeyboardKey.S, SDL_Scancode.SDL_SCANCODE_S);
                 sdlKeys.Add(KeyboardKey.D, SDL_Scancode.SDL_SCANCODE_D);
                 
-
-
                 sdlKeys.Add(KeyboardKey.Up, SDL_Scancode.SDL_SCANCODE_UP);
                 sdlKeys.Add(KeyboardKey.Down, SDL_Scancode.SDL_SCANCODE_DOWN);
                 sdlKeys.Add(KeyboardKey.Left, SDL_Scancode.SDL_SCANCODE_LEFT);
@@ -149,10 +147,9 @@ namespace BBQLib
                     h = (int)height
                 };
 
-                IntPtr unmanagedPointer = Marshal.AllocHGlobal(frameBuffer.Length);
-                Marshal.Copy(frameBuffer, 0, unmanagedPointer, frameBuffer.Length);
+                IntPtr sdlBuffer = MemoryUtils.ArrayToPointer(frameBuffer);
 
-                SDL_UpdateTexture(texture, ref rect,unmanagedPointer, (int)(4*width));
+                SDL_UpdateTexture(texture, ref rect, sdlBuffer, (int)(4*width));
 
                 Sprite sprite = new Sprite();
                 sprite.json = name;

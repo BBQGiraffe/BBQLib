@@ -149,7 +149,10 @@ namespace BBQLib
                     h = (int)height
                 };
 
-                SDL_UpdateTexture(texture, ref rect, (IntPtr)GCHandle.Alloc(frameBuffer), (int)(3*width));
+                IntPtr unmanagedPointer = Marshal.AllocHGlobal(frameBuffer.Length);
+                Marshal.Copy(frameBuffer, 0, unmanagedPointer, frameBuffer.Length);
+
+                SDL_UpdateTexture(texture, ref rect,unmanagedPointer, (int)(4*width));
 
                 Sprite sprite = new Sprite();
                 sprite.json = name;

@@ -47,7 +47,7 @@ namespace BBQLib
                 Console.WriteLine("checking if SDL2 TTF is working... {0}", TTF_Init() > -1);
                 Console.WriteLine("checking if SDL2 Image is working... {0}", IMG_Init(IMG_InitFlags.IMG_INIT_PNG) > -1);
                 window = SDL_CreateWindow(config.name, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,(int)config.width, (int)config.height, SDL_WindowFlags.SDL_WINDOW_RESIZABLE);
-                renderer = SDL_CreateRenderer(window, -1, SDL_RendererFlags.SDL_RENDERER_ACCELERATED);
+                renderer = SDL_CreateRenderer(window, -1, SDL_RendererFlags.SDL_RENDERER_ACCELERATED | SDL_RendererFlags.SDL_RENDERER_PRESENTVSYNC);
                 Console.WriteLine("setting logical render size... {0}", SDL_RenderSetLogicalSize(renderer, (int)config.width, (int)config.height) > -1);
                 Console.WriteLine("mapping SDL2 keys....");
 
@@ -120,7 +120,7 @@ namespace BBQLib
                 deltaTime = (SDL_GetTicks() - tickCount) / 1000.0f;
                 tickCount = SDL_GetTicks();
                 SDL_RenderClear(renderer);
-                SDL_Delay(17);
+                //SDL_Delay(17);
             }
 
             static Dictionary<string, IntPtr> textures = new Dictionary<string, IntPtr>();

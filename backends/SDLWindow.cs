@@ -112,7 +112,7 @@ namespace BBQLib
                 sdlKeys.Add(KeyboardKey.Left, SDL_Scancode.SDL_SCANCODE_LEFT);
                 
             }
-
+            
             public override void Clear()
             {
                 sprites.Clear();
@@ -218,10 +218,11 @@ namespace BBQLib
                     y = (int)origin.Y
                 };
                 
+                var roundedPos = new Vector2(MathF.Round(position.X), MathF.Round(position.Y));
                 SDL_Rect rect = new SDL_Rect()
                 {
-                    x = (int)(position.X - origin.X),
-                    y = (int)(position.Y - origin.Y),
+                    x = (int)(roundedPos.X - origin.X),
+                    y = (int)(roundedPos.Y - origin.Y),
                     w = (int)(width * scale.X),
                     h = (int)(height * scale.Y)
                 };

@@ -11,13 +11,15 @@ namespace BBQLib
             {
 
                 var colorIndex = buffer[i];
-                byte r = palette[3 * (colorIndex)];
-                byte g = palette[3 * (colorIndex) + 1];
-                byte b = palette[3 * (colorIndex) + 2];
+                byte r = palette[bpp * (colorIndex)];
+                byte g = palette[bpp * (colorIndex) + 1];
+                byte b = palette[bpp * (colorIndex) + 2];
+                byte a = (hasAlpha) ? palette[bpp * (colorIndex) + 3] : byte.MaxValue;
 
-                output[3 * i] = r;
-                output[3 * (i) + 1] = g;
+                output[4 * i] = r;
+                output[4 * (i) + 1] = g;
                 output[4 * (i) + 2] = b;
+                output[4 * (i) + 3] = a;
 
             }
 

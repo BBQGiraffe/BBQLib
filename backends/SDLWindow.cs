@@ -205,8 +205,8 @@ namespace BBQLib
                 {
                     x = 0,
                     y = 0,
-                    w =  width,
-                    h = height
+                    w =  (int)(width * scale.X),
+                    h = (int)(height * scale.Y)
                 };
 
                 SDL_Point center = new SDL_Point()
@@ -218,8 +218,8 @@ namespace BBQLib
                 var roundedPos = new Vector2(MathF.Round(position.X), MathF.Round(position.Y));
                 SDL_Rect rect = new SDL_Rect()
                 {
-                    x = (int)(roundedPos.X - origin.X),
-                    y = (int)(roundedPos.Y - origin.Y),
+                    x = (int)(roundedPos.X - origin.X * scale.X),
+                    y = (int)(roundedPos.Y - origin.Y * scale.Y),
                     w = (int)(width * scale.X),
                     h = (int)(height * scale.Y)
                 };

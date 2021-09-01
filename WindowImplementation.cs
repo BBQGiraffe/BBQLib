@@ -11,6 +11,7 @@ namespace BBQLib
         public abstract void Present();
         public abstract Sprite CreateSprite(string filename);
         public abstract Sprite CreateSprite(byte[] frameBuffer, uint width, uint height, string name);
+        //public abstract void UpdateSprite(byte[] frameBuffer, string name);
         public abstract void LoadFonts(string filename);
         public abstract void Dispose();
         public abstract bool IsKeyDown(KeyboardKey key);

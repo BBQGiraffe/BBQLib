@@ -157,6 +157,7 @@ namespace BBQLib
                 sfSprite.Position = new Vector2f(pos.X, pos.Y);
                 sfSprite.Rotation = sprite.rotation;
                 sfSprite.Origin = new Vector2f(sprite.origin.X, sprite.origin.Y);
+                sfSprite.Scale = new Vector2f(sprite.scale.X, sprite.scale.Y);
                 window.Draw(sfSprite);
             }
         }

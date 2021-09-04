@@ -27,6 +27,11 @@ namespace BBQLib
                 return window.DeltaTime;
             }
         }
+
+        public static Sprite CreateSprite(byte[] buffer, uint width, uint height, string name)
+        {
+            return window.CreateSprite(buffer, width, height, name);
+        }
         public static Sprite RegisterSprite(string filename)
         {
             return window.CreateSprite(filename);

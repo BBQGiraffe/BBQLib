@@ -47,7 +47,7 @@ namespace BBQLib
                 Console.WriteLine("checking if SDL2 TTF is working... {0}", TTF_Init() > -1);
                 Console.WriteLine("checking if SDL2 Image is working... {0}", IMG_Init(IMG_InitFlags.IMG_INIT_PNG) > -1);
                 window = SDL_CreateWindow(config.name, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,(int)config.width, (int)config.height, SDL_WindowFlags.SDL_WINDOW_RESIZABLE);
-                renderer = SDL_CreateRenderer(window, -1, SDL_RendererFlags.SDL_RENDERER_ACCELERATED);
+                renderer = SDL_CreateRenderer(window, -1, SDL_RendererFlags.SDL_RENDERER_ACCELERATED | SDL_RendererFlags.SDL_RENDERER_PRESENTVSYNC);
                 Console.WriteLine("setting logical render size... {0}", SDL_RenderSetLogicalSize(renderer, (int)config.width, (int)config.height) > -1);
                 Console.WriteLine("mapping SDL2 keys....");
 
@@ -105,14 +105,12 @@ namespace BBQLib
                 sdlKeys.Add(KeyboardKey.S, SDL_Scancode.SDL_SCANCODE_S);
                 sdlKeys.Add(KeyboardKey.D, SDL_Scancode.SDL_SCANCODE_D);
                 
-
-
                 sdlKeys.Add(KeyboardKey.Up, SDL_Scancode.SDL_SCANCODE_UP);
                 sdlKeys.Add(KeyboardKey.Down, SDL_Scancode.SDL_SCANCODE_DOWN);
                 sdlKeys.Add(KeyboardKey.Left, SDL_Scancode.SDL_SCANCODE_LEFT);
                 
             }
-
+            
             public override void Clear()
             {
                 sprites.Clear();
@@ -120,7 +118,7 @@ namespace BBQLib
                 deltaTime = (SDL_GetTicks() - tickCount) / 1000.0f;
                 tickCount = SDL_GetTicks();
                 SDL_RenderClear(renderer);
-                SDL_Delay(17);
+                //SDL_Delay(17);
             }
 
             static Dictionary<string, IntPtr> textures = new Dictionary<string, IntPtr>();
@@ -134,6 +132,34 @@ namespace BBQLib
                     var sdlFont = TTF_OpenFont(BBQLib.rootDirectory + font.Value.ttf, (int)font.Value.size);
                     sdlFonts.Add(font.Key, sdlFont);
                 }
+            }
+
+            public override Sprite CreateSprite(byte[] frameBuffer, uint width, uint height, string name)
+            {
+                //the image is RGBA I think SDL2-CS might be broken
+                IntPtr texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ABGR8888, (int)SDL_TextureAccess.SDL_TEXTUREACCESS_STATIC, (int)width, (int)height);
+                textures.Add(name, texture);
+
+
+
+                IntPtr unmanagedPointer = Marshal.AllocHGlobal(frameBuffer.Length);
+                Marshal.Copy(frameBuffer, 0, unmanagedPointer, frameBuffer.Length);
+
+                SDL_Rect rect = new SDL_Rect
+                {
+                    x = 0,
+                    y = 0,
+                    w = (int)width,
+                    h = (int)height
+                };
+
+                SDL_UpdateTexture(texture, ref rect, unmanagedPointer, (int)(4*width));
+
+                Sprite sprite = new Sprite();
+                sprite.json = name;
+                sprite.textureFile = "SDL_GENERATEDTEXTURE_" + name;
+
+                return sprite;
             }
 
             public override Sprite CreateSprite(string filename)
@@ -183,8 +209,8 @@ namespace BBQLib
                 {
                     x = 0,
                     y = 0,
-                    w =  width,
-                    h = height
+                    w =  (int)(width * scale.X),
+                    h = (int)(height * scale.Y)
                 };
 
                 SDL_Point center = new SDL_Point()
@@ -193,10 +219,11 @@ namespace BBQLib
                     y = (int)origin.Y
                 };
                 
+                var roundedPos = new Vector2(MathF.Round(position.X), MathF.Round(position.Y));
                 SDL_Rect rect = new SDL_Rect()
                 {
-                    x = (int)(position.X - origin.X),
-                    y = (int)(position.Y - origin.Y),
+                    x = (int)(roundedPos.X - origin.X * scale.X),
+                    y = (int)(roundedPos.Y - origin.Y * scale.Y),
                     w = (int)(width * scale.X),
                     h = (int)(height * scale.Y)
                 };

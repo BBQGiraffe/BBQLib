@@ -71,6 +71,20 @@ namespace BBQLib
                 deltaTime = deltaTimer.Restart().AsSeconds();
             }
 
+            public override Sprite CreateSprite(byte[] frameBuffer, uint width, uint height, string name)
+            {
+                SFML.Graphics.Image image = new SFML.Graphics.Image(width, height, frameBuffer);
+                SFML.Graphics.Sprite sfSprite = new SFML.Graphics.Sprite(new SFML.Graphics.Texture(image));
+
+                Sprite sprite = new Sprite();
+
+                sprite.json = name;
+                sprite.textureFile = "SFML_GENERATEDTEXTURE_" + name;
+                sfSprites.Add(name, sfSprite);
+                return sprite;
+
+            }
+
             public override Sprite CreateSprite(string filename)
             {
                 var sprite = Json.Deserialize<Sprite>(filename);
@@ -143,6 +157,7 @@ namespace BBQLib
                 sfSprite.Position = new Vector2f(pos.X, pos.Y);
                 sfSprite.Rotation = sprite.rotation;
                 sfSprite.Origin = new Vector2f(sprite.origin.X, sprite.origin.Y);
+                sfSprite.Scale = new Vector2f(sprite.scale.X, sprite.scale.Y);
                 window.Draw(sfSprite);
             }
         }

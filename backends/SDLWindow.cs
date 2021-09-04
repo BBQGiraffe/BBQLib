@@ -136,14 +136,8 @@ namespace BBQLib
 
             public override Sprite CreateSprite(byte[] frameBuffer, uint width, uint height, string name)
             {
-                //the image is RGBA I think SDL2-CS might be broken
-                IntPtr texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ABGR8888, (int)SDL_TextureAccess.SDL_TEXTUREACCESS_STATIC, (int)width, (int)height);
+                IntPtr texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, (int)SDL_TextureAccess.SDL_TEXTUREACCESS_STREAMING, (int)width, (int)height);
                 textures.Add(name, texture);
-
-
-
-                IntPtr unmanagedPointer = Marshal.AllocHGlobal(frameBuffer.Length);
-                Marshal.Copy(frameBuffer, 0, unmanagedPointer, frameBuffer.Length);
 
                 SDL_Rect rect = new SDL_Rect
                 {
@@ -153,9 +147,12 @@ namespace BBQLib
                     h = (int)height
                 };
 
-                SDL_UpdateTexture(texture, ref rect, unmanagedPointer, (int)(4*width));
+                IntPtr sdlBuffer = MemoryUtils.ArrayToPointer(frameBuffer);
+
+                SDL_UpdateTexture(texture, ref rect, sdlBuffer, (int)(4*width));
 
                 Sprite sprite = new Sprite();
+                sprite.size = new Vector2(width, height);
                 sprite.json = name;
                 sprite.textureFile = "SDL_GENERATEDTEXTURE_" + name;
 

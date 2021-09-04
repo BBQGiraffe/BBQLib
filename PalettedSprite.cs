@@ -1,3 +1,4 @@
+using System;
 namespace BBQLib 
 {
     public static class PalettedSprite
@@ -5,7 +6,7 @@ namespace BBQLib
         public static Sprite CreatePalettedSprite(byte[] palette, byte[] buffer, uint width, uint height, bool hasAlpha, string name)
         {
             int bpp = (hasAlpha) ? 4 : 3;
-            byte[] output = new byte[width * height * bpp];
+            byte[] output = new byte[width * height * 4];
 
             for(int i = 0; i < buffer.Length; i++)
             {

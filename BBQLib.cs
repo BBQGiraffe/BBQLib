@@ -1,12 +1,14 @@
 using BBQLib.Backends;
 using System.Collections.Generic;
 using System;
+using System.IO;
 using System.Numerics;
 namespace BBQLib
 {
     public static class BBQLib
     {
         internal static WindowImplementation window;   
+        internal static SoundPlayer soundPlayer;
         public static string rootDirectory = "";
         public static void Init(WindowConfig config, BackendType type = BackendType.SFML)
         {
@@ -14,6 +16,7 @@ namespace BBQLib
             {
                 case BackendType.SFML:
                     window = new SFMLWindow(config);
+                    soundPlayer = new SFMLSoundPlayer();
                     break;
                 case BackendType.SDL:
                     window = new SDLWindow(config);
@@ -26,6 +29,26 @@ namespace BBQLib
             {
                 return window.DeltaTime;
             }
+        }
+
+        public static void PlaySound(string sound)
+        {
+            soundPlayer.PlaySound(sound);
+        }
+
+        public static void LoadSounds(string directory)
+        {
+            soundPlayer.soundDir = rootDirectory + directory;
+            foreach(var filename in Directory.GetFiles(rootDirectory + directory))
+            {
+                soundPlayer.LoadSound(filename);
+            }
+            
+        }
+
+        public static Sprite CreateSprite(byte[] palette, byte[] buffer, uint width, uint height, string name)
+        {
+            return PalettedSprite.CreatePalettedSprite(palette, buffer, width, height, false, name);
         }
 
         public static Sprite CreateSprite(byte[] buffer, uint width, uint height, string name)

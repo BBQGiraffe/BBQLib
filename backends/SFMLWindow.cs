@@ -77,7 +77,7 @@ namespace BBQLib
                 SFML.Graphics.Sprite sfSprite = new SFML.Graphics.Sprite(new SFML.Graphics.Texture(image));
 
                 Sprite sprite = new Sprite();
-
+                sprite.size = new Vector2(width, height);
                 sprite.json = name;
                 sprite.textureFile = "SFML_GENERATEDTEXTURE_" + name;
                 sfSprites.Add(name, sfSprite);

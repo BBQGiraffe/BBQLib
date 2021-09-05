@@ -107,7 +107,7 @@ namespace BBQLib
             public override Vector2 GetMouse()
             {
                 var position = SFML.Window.Mouse.GetPosition(window);
-                return new Vector2(position.X, position.Y);
+                return new Vector2(position.X, position.Y) / windowScale;
             }
 
             public override void Draw(Sprite sprite)
@@ -115,6 +115,18 @@ namespace BBQLib
                 sprite.drawn = false;
                 Layer(sprite.layer);
                 sprites.Add(sprite);
+            }
+
+            RectangleShape shape = new RectangleShape();
+            public override void DrawBox(BoundingBox box, Color color)
+            {
+                Vector2 pos = box.min - BBQLib.Camera + Size / 2;
+                shape.Position = new Vector2f(pos.X, pos.Y);
+
+                shape.Size = new Vector2f(box.size.X, box.size.Y);
+                shape.Origin = new Vector2f(box.origin.X, box.origin.Y);
+                shape.FillColor = new SFML.Graphics.Color((byte)(color.r * 255), (byte)(color.g * 255), (byte)(color.b * 255), (byte)(color.a * 255));
+
             }
 
             public override void Present()
@@ -144,8 +156,9 @@ namespace BBQLib
             }
 
             //sfml doesn't have built in aspect preservation, stole this code from OpenNitemare3D lol
-            static float aspectRatio = 1.33333333f;
-            static void PreserveAspectRatio()//mm letterboxing
+            float aspectRatio = 1.33333333f;
+            float windowScale = 1;
+            void PreserveAspectRatio()//mm letterboxing
             {
                 var m_window_width = window.Size.X;
                 var m_window_height = window.Size.Y;
@@ -162,7 +175,7 @@ namespace BBQLib
                 {
                     view.Viewport = new FloatRect(0.0f, offset_height / m_window_height, 1.0f, new_height / m_window_height);
                 }
-
+                windowScale = new_width / Size.X;
                 window.SetView(view);
             }
 

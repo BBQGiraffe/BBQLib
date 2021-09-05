@@ -8,6 +8,7 @@ namespace BBQLib
         public abstract void Clear();
         public abstract void Draw(Sprite sprite);
         public abstract void Draw(string font, string text, Vector2 position);
+        public abstract void DrawBox(BoundingBox box, Color color);
         public abstract void Present();
         public abstract Sprite CreateSprite(string filename);
         public abstract Sprite CreateSprite(byte[] frameBuffer, uint width, uint height, string name);

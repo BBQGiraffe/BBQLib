@@ -10,18 +10,10 @@ namespace BBQLib
         internal static WindowImplementation window;   
         internal static SoundPlayer soundPlayer;
         public static string rootDirectory = "";
-        public static void Init(WindowConfig config, BackendType type = BackendType.SFML)
+        public static void Init(WindowConfig config)
         {
-            switch (type)
-            {
-                case BackendType.SFML:
-                    window = new SFMLWindow(config);
-                    soundPlayer = new SFMLSoundPlayer();
-                    break;
-                case BackendType.SDL:
-                    window = new SDLWindow(config);
-                    break;
-            }
+            window = new SFMLWindow(config);
+            soundPlayer = new SFMLSoundPlayer();
         }
         public static float DeltaTime
         {

@@ -75,6 +75,11 @@ namespace BBQLib
 
         }
 
+        public static Vector2 ScreenToWorld(Vector2 A)
+        {
+            return A + Camera - window.Size / 2;
+        }
+
         public static Vector2 Camera = new Vector2();
 
         public static Vector2 Size
@@ -90,10 +95,17 @@ namespace BBQLib
             window.Draw(sprite);
         }
 
+        public static void Line(Vector2 A, Vector2 B, Color color)
+        {
+            window.DrawLine(A, B, 4, color);
+        }
+
         public static void Draw(string font, string text, Vector2 position)
         {
             window.Draw(font, text, position);
         }
+
+        
 
         public static bool IsOpen
         {

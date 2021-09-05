@@ -50,6 +50,8 @@ namespace BBQLib
                 window.SetFramerateLimit(config.fps);
                 windowSize = new Vector2(config.width, config.height);
                 window.Closed += (object o, EventArgs a) => window.Close();
+                aspectRatio = ((float)config.width / (float)config.height);
+                window.Resized += (sender, e) => PreserveAspectRatio();
             }
 
             public override bool IsOpen
@@ -84,7 +86,7 @@ namespace BBQLib
                 return sprite;
 
             }
-
+        
             public override Sprite CreateSprite(string filename)
             {
                 var sprite = Json.Deserialize<Sprite>(filename);
@@ -102,6 +104,12 @@ namespace BBQLib
                 return Keyboard.IsKeyPressed((Keyboard.Key)key);
             }
 
+            public override Vector2 GetMouse()
+            {
+                var position = SFML.Window.Mouse.GetPosition(window);
+                return new Vector2(position.X, position.Y);
+            }
+
             public override void Draw(Sprite sprite)
             {
                 sprite.drawn = false;
@@ -114,21 +122,6 @@ namespace BBQLib
                 
                 DrawSprites();
                 window.Display();
-            }
-
-            public override bool Equals(object obj)
-            {
-                return base.Equals(obj);
-            }
-
-            public override int GetHashCode()
-            {
-                return base.GetHashCode();
-            }
-
-            public override string ToString()
-            {
-                return base.ToString();
             }
 
             public override void Draw(string font, string text, Vector2 position)
@@ -150,6 +143,29 @@ namespace BBQLib
                 }
             }
 
+            //sfml doesn't have built in aspect preservation, stole this code from OpenNitemare3D lol
+            static float aspectRatio = 1.33333333f;
+            static void PreserveAspectRatio()//mm letterboxing
+            {
+                var m_window_width = window.Size.X;
+                var m_window_height = window.Size.Y;
+                float new_width = aspectRatio * m_window_height;
+                float new_height = m_window_width / aspectRatio;
+                float offset_width = (m_window_width - new_width) / 2.0f;
+                float offset_height = (m_window_height - new_height) / 2.0f;
+                View view = window.GetView();
+                if (m_window_width >= aspectRatio * m_window_height)
+                {
+                    view.Viewport = new FloatRect(offset_width / m_window_width, 0.0f, new_width / m_window_width, 1.0f);
+                }
+                else
+                {
+                    view.Viewport = new FloatRect(0.0f, offset_height / m_window_height, 1.0f, new_height / m_window_height);
+                }
+
+                window.SetView(view);
+            }
+
             protected override void DrawSpriteInternal(Sprite sprite)
             {
                 var sfSprite = sfSprites[sprite.json];
@@ -159,6 +175,18 @@ namespace BBQLib
                 sfSprite.Origin = new Vector2f(sprite.origin.X, sprite.origin.Y);
                 sfSprite.Scale = new Vector2f(sprite.scale.X, sprite.scale.Y);
                 window.Draw(sfSprite);
+            }
+
+            public override void DrawLine(Vector2 A, Vector2 B, float width, Color color)
+            {
+                A = A - BBQLib.Camera + Size / 2;
+                B = B - BBQLib.Camera + Size / 2;
+                Vertex[] vertices = new Vertex[2]
+                {
+                    new Vertex(new Vector2f(A.X, A.Y), new SFML.Graphics.Color((byte)(color.r * 255), (byte)(color.g * 255), (byte)(color.b * 255), (byte)(color.a * 255))),
+                    new Vertex(new Vector2f(B.X, B.Y), new SFML.Graphics.Color((byte)(color.r * 255), (byte)(color.g * 255), (byte)(color.b * 255), (byte)(color.a * 255)))
+                };
+                window.Draw(vertices, PrimitiveType.Lines);
             }
         }
     }

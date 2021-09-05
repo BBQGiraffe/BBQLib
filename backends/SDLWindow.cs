@@ -66,6 +66,11 @@ namespace BBQLib
                 return keyState[(int)sdlKeys[key]] > 0;
             }
 
+            public override Vector2 GetMouse()
+            {
+                throw new NotImplementedException();
+            }
+
             byte[] keyState;
 
             void PollEvents()
@@ -255,6 +260,11 @@ namespace BBQLib
                 {
                     SDL_DestroyTexture(texture.Value);
                 }
+            }
+
+            public override void DrawLine(Vector2 A, Vector2 B, float width, Color color)
+            {
+                throw new NotImplementedException();
             }
         }
     }

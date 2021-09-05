@@ -11,10 +11,12 @@ namespace BBQLib
         public abstract void Present();
         public abstract Sprite CreateSprite(string filename);
         public abstract Sprite CreateSprite(byte[] frameBuffer, uint width, uint height, string name);
+        public abstract void DrawLine(Vector2 A, Vector2 B, float width, Color color);
         //public abstract void UpdateSprite(byte[] frameBuffer, string name);
         public abstract void LoadFonts(string filename);
         public abstract void Dispose();
         public abstract bool IsKeyDown(KeyboardKey key);
+        public abstract Vector2 GetMouse();
         protected abstract void DrawSpriteInternal(Sprite sprite);
 
         protected readonly List<int> usedLayers = new List<int>();

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System;
+using System.Numerics; 
 namespace BBQLib
 {
     public static class Input
@@ -32,6 +33,11 @@ namespace BBQLib
                 }
 
             }
+        }
+
+        public static Vector2 GetMouse()
+        {
+            return BBQLib.window.GetMouse();
         }
 
         public static float GetAxis(string name)
